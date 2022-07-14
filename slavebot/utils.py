@@ -101,12 +101,16 @@ class GuildDefense:
 
 class DataMixin:
 
-	async def has_nt(self, inter: nextcord.Interaction):
+	@logger.catch()
+	async def has_nt(self, inter: nextcord.Interaction) -> bool:
 		await inter.send(
 			embed=CustomEmbed.no_perm(),
 			ephemeral=True
 		)
 
+		return False
+
+	@logger.catch()
 	async def has_perms(self, _user: nextcord.Member = None, inter: nextcord.Interaction = None) -> bool:
 		bot_admins = (686207718822117463,)
 		user = _user if _user else inter.user
@@ -114,23 +118,27 @@ class DataMixin:
 		if user.id in bot_admins or user.guild_permissions.administrator or user.guild_permissions.manage_guild:
 			return True
 
-		await self.has_nt(
-			inter
-		)
+		return \
+			await self.has_nt(
+				inter
+			)
 
-	async def get_timestamp(self, minutes: int, discord: bool = True):
+	@logger.catch()
+	def get_timestamp(self, days: int = "", hours: int = 0, minutes: int = 0, seconds: int = 0, discord: bool = True, style: str = "R"):
 		now = datetime.now(tz=timezone)
-		days: timedelta = timedelta(minutes=minutes)
+		days: timedelta = timedelta(days=days, hours=hours, minutes=minutes, seconds=seconds)
 
 		result = int(str((now + days).timestamp()).split(".")[0])
 
 		if discord:
-			return f"<t:{result}:R>"
+			return f"<t:{result}:{style if discord else 'R'}>"
 		return result
 
+	@logger.catch()
 	def timestamp(self, dt: datetime):
 		return f"<t:{int(str(dt.timestamp()).split('.')[0])}:R>"
 
+	@logger.catch()
 	def get_img(self, type, cat) -> str:
 		url = f'https://api.waifu.pics/{type}/{cat}'
 
@@ -142,6 +150,7 @@ class DataMixin:
 
 		return data['url']
 
+	@logger.catch()
 	async def define_guild(self, inter: nextcord.Interaction, master_or_user='master') -> str:
 
 		for _ in config.ALL_GUILDS:
@@ -149,6 +158,7 @@ class DataMixin:
 			if has_role(role=inter.guild.get_role(r), user=inter.user):
 				return _.lower()
 
+	@logger.catch()
 	async def bad_callback(self, interaction: nextcord.Interaction or nextcord.Message, message: str):
 		return await interaction.send(
 			ephemeral=True,
@@ -170,6 +180,7 @@ class DataMixin:
 
 class CommandsMixin:
 
+	@logger.catch()
 	async def not_implemented_command(self, inter: nextcord.Interaction):
 		return await inter.send(
 			ephemeral=True,

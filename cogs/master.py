@@ -1,6 +1,10 @@
+from typing import List
+
 import nextcord
 from nextcord import Interaction, slash_command
-from nextcord.ext.commands import Cog, Bot
+from nextcord.ext.commands import Cog, Bot, Paginator
+
+
 
 from slavebot import *
 from _config import Config
@@ -80,55 +84,75 @@ class MasterCommands(DataMixin, TextGetter, Cog):
 				)
 			).normal
 
-		embed.add_field(name="Старая тема канала", value=str(old_topic), inline=True)
-		embed.add_field(name="Новая тема канала", value=str(new_topic), inline=True)
+		embed.add_field(name="Старая тема канала", value=f"{str(old_topic) if old_topic else '#'}", inline=True)
+		embed.add_field(name="Новая тема канала", value=f"{str(new_topic) if new_topic else '#'}", inline=True)
 
 		await inter.send(
 			ephemeral=True,
 			embed=embed
 		)
 
-	# async def __profile(self, inter: Interaction, guild: str or GuildsManager, msg: nextcord.Message = None):
-	#
-	# 	_ = guild.lower() if isinstance(guild, str) else guild.guild.lower()
-	#
-	# 	embed = \
-	# 		CustomEmbed(
-	# 			embed=nextcord.Embed(
-	# 				title="マスタープロフィール！",
-	# 				description=f"コニチワ, 主人 {config.get_jp_guild(_)}, 今日は美しい日ですね。?"
-	# 			)
-	# 		).normal
-	#
-	# 	buttons = MasterView(_)
-	#
-	# 	message = await inter.send(
-	# 		embed=embed,
-	# 		view=buttons
-	# 	) if not msg else await msg.edit(
-	# 		embed=embed,
-	# 		view=buttons
-	# 	)
-	#
-	# 	await buttons.wait()
-	#
-	# 	response = buttons.response
-	#
-	# 	logger.info(response.response)
-	# 	logger.info(response.close)
-	# 	logger.info(response.speech)
-	# 	logger.info(response.topic)
-	#
-	# 	if response.close:
-	# 		await message.delete()
-	#
-	# 	elif response.speech:
-	# 		await self.change_speech(inter, _, message)
-	#
-	# 	elif response.topic:
-	# 		await self.change_topic(inter, _, message)
-	# 	else:
-	# 		await message.delete()
+	@staticmethod
+	def divide_list(lst: list, n: int):
+		for i in range(0, len(lst), n):
+			yield lst[i:i + n]
+
+
+	@slash_command(
+		name='members'
+	)
+	async def get_users(self, inter: nextcord.Interaction, guild_role: nextcord.Role):
+
+		divided_members: List[List[nextcord.Member]] = [
+			d for d in self.divide_list(
+				guild_role.members, 12
+			)
+		]
+
+		embeds = []
+		i = 1
+		page = 1
+		for l in divided_members:
+			embed = CustomEmbed(
+				embed=nextcord.Embed(
+					title=f"Пользователи - {page}",
+					description=f"Список из **{len(guild_role.members)}** пользователей с ролью {guild_role.mention}, страница **{page}**.\nВзаимодействие возможно до "
+					            f"{self.get_timestamp(minutes=5, discord=True, style='T')}"
+				)
+			).normal
+			for member in l:
+
+				embed.add_field(
+					name=f"#{i}",
+					value=f"{member.mention} - {member.id}"
+				)
+				i += 1
+
+			page += 1
+			embeds.append(embed)
+
+
+		if len(embeds) > 1:
+			try:
+				view = MasterMembersView(
+					embeds=embeds,
+					user=inter.user,
+
+
+				)
+			except ValueError as exc:
+				return await self.bad_callback(
+					inter,
+					f"{exc}"
+				)
+
+			await inter.send(
+				embed=embeds[0],
+				view=view,
+
+			)
+		else:
+			await inter.send(embed=embeds[0])
 
 	@logger.catch()
 	async def callback(self, do: str, inter: Interaction, guild: str):

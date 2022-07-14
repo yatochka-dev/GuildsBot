@@ -92,22 +92,6 @@ class InviteSend(DataMixin):
 		self.manager = manager
 		self.state = "INITIALIZATION"
 
-	@classmethod
-	@logger.catch()
-	def get_timestamp(cls, days: int, discord: bool) -> str or int:
-		try:
-			now = datetime.now(tz=timezone)
-			days: timedelta = timedelta(days=days)
-
-			result = int(str((now + days).timestamp()).split(".")[0])
-
-			if discord:
-				return f"<t:{result}:R>"
-
-			return result
-		except Exception as exc:
-			logger.error(f"Ошибка получения времени {exc}")
-			raise LookupError(f"Ошибка получения времени {exc}") from exc
 
 	@property
 	@logger.catch()

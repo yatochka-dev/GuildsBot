@@ -1,6 +1,7 @@
 import json
 import os
 from datetime import timezone, timedelta
+from pathlib import Path
 from typing import List, Tuple
 
 import loguru
@@ -53,6 +54,10 @@ LOGGER.add(
 
 # @TODO сделать дискорд логгер типа создаю лог как обычно, а он и в дискорд и в файл и в консоль.
 
+class BaseConfig:
+	BASE_DIR = Path(__file__).resolve().parent
+
+
 class InvitesConfig:
 	ALL_GUILDS: List[str] = ["DENDRO", "HYDRO", "PYRO", "CRYO", "ANEMO", "ELECTRO", "GEO"]
 
@@ -80,14 +85,14 @@ class InvitesConfig:
 	}
 
 
-class SecureConfig:
+class SecureConfig(BaseConfig):
 
 	def __init__(self):
-		self.TOKEN = self.get_key('discord-token')
+		self.TOKEN = self.get_key('DISCORD_TOKEN')
 
 	def get_key(self, key_name: str) -> str:
 		with open(
-				file='venv/.env.json',
+				file=self.BASE_DIR / '.env.json',
 				mode='r',
 				encoding='UTF-8'
 		) as config_file:
@@ -98,10 +103,10 @@ class SecureConfig:
 		return os.environ[key_name]
 
 
-class Config(InvitesConfig, SecureConfig):
+class Config(InvitesConfig, SecureConfig, BaseConfig):
 	GO_TO_ME_TEXT: str = """Ублюдок мать твою а ну иди сюда говно собачье а ну решил ко мне лезть ты засранец вонючий мать твою а ну иди сюда попробуй меня трахнуть я тебя сам трахну ублюдок онанист чертов будь ты проклят иди идиот трахать тебя и всю твою семью говно собачье жлоб вонючий дерьмо сука падла иди сюда мерзавец негодяй гад иди сюда ты говно жопа"""
 
-	DB_PATH = r'C:\Users\phili\PycharmProjects\GuildsBot\models.sqlite3'
+	DB_PATH = BaseConfig.BASE_DIR / 'DB/models.sqlite3'
 
 	DEBUG = False
 
@@ -178,12 +183,11 @@ class Config(InvitesConfig, SecureConfig):
 		return cls.jp_master[guild.lower()]
 
 
-
 def main() -> None:
-	# tests
-	conf = Config()
+	c = Config()
 
-	print(conf.TOKEN)
+	print(c.TOKEN)
+	print(c.DB_PATH)
 
 
 if __name__ == '__main__':

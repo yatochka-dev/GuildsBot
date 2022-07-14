@@ -3,8 +3,8 @@ from typing import List
 
 import nextcord
 
-from .errors import ThisFieldDoesNotExists, SQLError
 from _config import Config
+from .errors import ThisFieldDoesNotExists, SQLError
 
 config = Config()
 
@@ -140,19 +140,20 @@ class DB:
 
 if __name__ == '__main__':
 	pass
-	manager = GuildsManager('dendro')
-	data = manager.change_row("master", 525388562951176222)
-	print(data.get_data())
+# manager = GuildsManager('dendro')
+# data = manager.change_row("master", 525388562951176222)
+# print(data.get_data())
 
 # d = manager.get_all_data()
 # for x in d:
 # 	print(x)
 # print(d)
 
+# data = manager.get_data()
+
+# print(data.master)
+
 #
-# 	data = manager.get_data()
-#
-# 	print(data.master)
 # cur.execute("""
 # create table "guild"
 # (

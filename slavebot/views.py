@@ -1,6 +1,7 @@
 import asyncio
 import random
-from typing import Tuple
+import re
+from typing import Tuple, List
 
 import nextcord
 from nextcord import Interaction, TextInputStyle
@@ -8,10 +9,10 @@ from nextcord.ext import commands
 from nextcord.ui import Modal, TextInput
 
 from _config import Config
-from .utils import DataMixin
 from .GuildsManager import GuildsManager
 from .embeds import CustomEmbed
 from .tools import CheckUser
+from .utils import DataMixin
 
 config = Config()
 
@@ -274,6 +275,7 @@ class GetMessageView(Modal):
 		self.data = self.message.value
 		self.stop()
 
+
 # class MasterView(nextcord.ui.View):
 #
 # 	def __init__(self, guild: str, speech: callable, topic: callable, message: nextcord.Message):
@@ -341,3 +343,69 @@ class GetMessageView(Modal):
 # 				to='start'
 # 			)
 # 			self.stop()
+
+class MasterMembers(nextcord.ui.Select):
+
+	def __init__(self, embeds: List[nextcord.Embed], user: nextcord.Member):
+		self.embeds = embeds
+		self.user = user
+
+		if len(self.embeds) > 25:
+			raise ValueError("Слишком много пользователей")
+
+		pg = 1
+		options = []
+
+		for _emb in embeds:
+			options.append(
+				nextcord.SelectOption(
+					label=f"#{pg}",
+					description=f"Страница {pg}",
+					value=str(pg),
+				)
+			)
+
+			pg += 1
+
+		super(MasterMembers, self).__init__(
+			options=options,
+			min_values=1,
+			max_values=1,
+			placeholder="Выберите страницу"
+		)
+
+	async def callback(self, interaction: Interaction):
+		if self.user == interaction.user:
+
+			chosen = self.values[0]
+			_id = int(re.findall(r"\d+", str(chosen))[0]) - 1
+
+			embed = self.embeds[_id]
+
+			msg = interaction.message
+
+			await msg.edit(
+				embed=embed
+			)
+		else:
+			await interaction.send(
+				embed=CustomEmbed.no_perm(),
+				ephemeral=True
+			)
+
+
+class MasterMembersView(nextcord.ui.View):
+	def __init__(self, embeds: List[nextcord.Embed], user: nextcord.Member):
+		super(MasterMembersView, self).__init__(timeout=300)  # 5 минут
+
+		self.menu = MasterMembers(
+			embeds=embeds,
+			user=user
+		)
+
+		self.add_item(
+			self.menu
+		)
+
+	async def on_timeout(self) -> None:
+		self.remove_item(self.menu)
