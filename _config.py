@@ -1,3 +1,5 @@
+import json
+import os
 from datetime import timezone, timedelta
 from typing import List, Tuple
 
@@ -77,17 +79,34 @@ class InvitesConfig:
 		"geo": ((255, 222, 60), 868084063003639889),
 	}
 
-class Config(InvitesConfig):
+
+class SecureConfig:
+
+	def __init__(self):
+		self.TOKEN = self.get_key('discord-token')
+
+	def get_key(self, key_name: str) -> str:
+		with open(
+				file='venv/.env.json',
+				mode='r',
+				encoding='UTF-8'
+		) as config_file:
+			config_json = json.load(config_file)
+
+		os.environ[key_name] = config_json[key_name]
+
+		return os.environ[key_name]
+
+
+class Config(InvitesConfig, SecureConfig):
 	GO_TO_ME_TEXT: str = """Ублюдок мать твою а ну иди сюда говно собачье а ну решил ко мне лезть ты засранец вонючий мать твою а ну иди сюда попробуй меня трахнуть я тебя сам трахну ублюдок онанист чертов будь ты проклят иди идиот трахать тебя и всю твою семью говно собачье жлоб вонючий дерьмо сука падла иди сюда мерзавец негодяй гад иди сюда ты говно жопа"""
 
-	DB_PATH = r'C:\Users\phili\PycharmProjects\GuildsBot\SlaveBOTOrigins\models.sqlite3'
+	DB_PATH = r'C:\Users\phili\PycharmProjects\GuildsBot\models.sqlite3'
 
 	DEBUG = False
 
 	PREFIX = "+"
 	TEST_PREFIX = ")"
-
-	TOKEN = "ODYxNjI2NDA1MzEzNzA4MDYy.YOMiHw.2xTxozTjeP6xan0sByy_8XaBRLc"
 
 	ALLOWED_COGS = ("stuff", "invites", "master", 'voting')
 	LOGGER = LOGGER
@@ -109,13 +128,12 @@ class Config(InvitesConfig):
 	}
 
 	def __init__(self):
+		super(Config, self).__init__()
 		if self.DEBUG:
 			self.logs_channel = 875032054469894195
 			self.invites_channel = 898642365017890836
 			self.speeches_channel = 900075754153443358
 			self.base_server = 856964290777972787
-
-
 
 	@property
 	def get_prefix(self) -> str:
@@ -158,13 +176,14 @@ class Config(InvitesConfig):
 			raise ValueError(f"{guild} it's non known guild")
 
 		return cls.jp_master[guild.lower()]
-# tests
-conf = Config()
 
-print(conf.get_color_and_emoji('dendro'))
+
 
 def main() -> None:
-	return
+	# tests
+	conf = Config()
+
+	print(conf.TOKEN)
 
 
 if __name__ == '__main__':
