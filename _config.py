@@ -92,7 +92,7 @@ class SecureConfig(BaseConfig):
 
 	def get_key(self, key_name: str) -> str:
 		with open(
-				file=self.BASE_DIR / '.env.json',
+				file=self.BASE_DIR / '.env',
 				mode='r',
 				encoding='UTF-8'
 		) as config_file:
