@@ -32,7 +32,7 @@ LOGGER.add(
 	serialize=True,
 )
 LOGGER.add(
-	"logs/waring.json",
+	"logs/warning.json",
 	level="WARNING",
 	format="{time} | {level}      | {message}",
 	rotation="00:00",

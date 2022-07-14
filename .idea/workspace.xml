@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="7764a0aa-2265-4f3f-a5fa-80b0e29131d5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/GuildsBot.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GuildsBot.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/38901e01-faf7-487c-9d15-14a87d7e07fa.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/debug.2022-07-08_00-18-53_687011.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/debug.2022-07-10_02-03-20_108171.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/debug.2022-07-11_00-00-00_217903.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/debug.2022-07-12_00-00-00_179005.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/debug.2022-07-13_00-47-04_156528.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/debug.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/error.2022-07-08_00-18-53_712010.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/error.2022-07-10_04-01-15_216632.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/error.2022-07-11_00-22-41_687112.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/error.2022-07-12_00-17-35_856974.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/error.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/info.2022-07-08_00-18-53_704009.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/info.2022-07-10_02-03-21_039172.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/info.2022-07-11_00-00-00_252902.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/info.2022-07-12_00-00-00_225005.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/info.2022-07-13_00-47-04_499529.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/info.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/success.2022-07-08_00-18-53_734011.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/success.2022-07-10_02-03-21_055174.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/success.2022-07-11_00-00-10_496904.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/success.2022-07-12_00-17-14_458971.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/success.2022-07-13_00-47-04_880527.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/success.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/waring.2022-07-08_00-18-53_719008.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/waring.2022-07-10_04-01-15_223631.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/waring.2022-07-11_00-22-41_737110.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/waring.2022-07-12_00-17-36_037973.json.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/waring.json" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2BuhFQMiFlbFl6TCXY3rRibsPae" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.Color Scheme Font"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7764a0aa-2265-4f3f-a5fa-80b0e29131d5" name="Changes" comment="" />
+      <created>1657761774678</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1657761774678</updated>
+      <workItem from="1657761783796" duration="517000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

@@ -1,0 +1,18 @@
+{
+    "1": "1",
+    "user_686207718822117463": {
+        "_id": 686207718822117463,
+        "name": "\u042f\u0442\u0430",
+        "nick": "\u0410\u0441\u0443 \u0440\u0430\u0433\u043e\u043d \u0434\u043e\u043d",
+        "reports": 0,
+        "likes": 0,
+        "statistics": null,
+        "guild": "Dendro",
+        "user_messages_count": 48390,
+        "user_messages_in_guild_count": 2336,
+        "guild_channel_id": 865577426720653353,
+        "history_of_guilds_for_every_user": [],
+        "can_user_has_interaction": false,
+        "can_user_has_invite_to_guild": true
+    }
+}

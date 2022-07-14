@@ -1,0 +1,177 @@
+import datetime
+import json
+from datetime import *
+from typing import Tuple, Any
+
+import nextcord
+import requests
+from nextcord.ext import commands
+
+from _config import Config
+from .GuildsManager import GuildsManager
+from .embeds import CustomEmbed
+from .tools import has_role
+
+config = Config()
+logger = config.get_logger
+
+timezone = config.get_timezone
+
+
+class GuildDefense:
+	COOLDOWN_FILE = "additional_files/users_cooldown.json"
+
+	def __init__(self, bot: commands.Bot, server: nextcord.Guild, user: int, guild: str):
+		self.bot, self.server = bot, server
+		self.user = user
+		self.guild = guild
+
+	# def __init__(self, bot: str, server: str, user: int, guild: str):
+	# 	self.bot, self.server = bot, server
+	# 	self.user = user
+	# 	self.guild = guild
+
+	@property
+	def is_on_cooldown(self) -> Tuple[bool, Any]:
+		"""
+		:return: Type: tuple, tuple[0] - bool, tuple[1](only if tuple[0] is True) - dict[str, timestamp]
+		"""
+
+		dt_now = datetime.now(tz=timezone)
+
+		with open(self.COOLDOWN_FILE, "r") as cooldown_file:
+			cooldown_json: dict = json.load(cooldown_file)
+
+		result = cooldown_json.get("{}".format(self.user), None)
+
+		if result is None:
+			return (False, {})
+		elif float(result["until"]) < dt_now.timestamp():
+			return (False, {})
+
+		return (True, result)
+
+	def timestamp(self, add: int = 120) -> str:
+		time_until_2m = datetime.fromtimestamp(float(self.is_on_cooldown[1].get("until", None))) + timedelta(seconds=add)
+
+		timestamp_until: str = str(time_until_2m.timestamp()).split(".")[0]
+
+		return timestamp_until
+
+	@property
+	def dc__timestamp(self):
+		return "<t:{}:R>".format(self.timestamp())
+
+	def remove_cooldown(self):
+		with open(self.COOLDOWN_FILE, "r") as cooldown_file:
+			json_after: dict = json.load(cooldown_file)
+
+		json_after.pop("{}".format(self.user))
+
+		with open(self.COOLDOWN_FILE, "w") as file_w:
+			json.dump(json_after, file_w, indent=4)
+
+	def set_cooldown(self, cooldown_seconds: float):
+		dt_now = datetime.now(tz=timezone)
+		until = (datetime(
+			year=dt_now.year,
+			month=dt_now.month,
+			day=dt_now.day,
+			hour=dt_now.hour,
+			minute=dt_now.minute,
+			second=dt_now.second,
+			microsecond=dt_now.microsecond,
+		) + timedelta(seconds=cooldown_seconds)).timestamp()
+
+		cooldown = {
+			"until": f"{until}",
+			"guild": f"{self.guild}",
+		}
+
+		with open(self.COOLDOWN_FILE, "r") as cooldown_file:
+			cooldown_json = json.load(cooldown_file)
+
+		cooldown_json["{}".format(self.user)] = cooldown
+
+		with open(self.COOLDOWN_FILE, "w") as file_w:
+			json.dump(cooldown_json, file_w, indent=4)
+
+		return cooldown
+
+
+class DataMixin:
+
+	async def has_nt(self, inter: nextcord.Interaction):
+		await inter.send(
+			embed=CustomEmbed.no_perm(),
+			ephemeral=True
+		)
+
+	async def has_perms(self, _user: nextcord.Member = None, inter: nextcord.Interaction = None) -> bool:
+		bot_admins = (686207718822117463,)
+		user = _user if _user else inter.user
+
+		if user.id in bot_admins or user.guild_permissions.administrator or user.guild_permissions.manage_guild:
+			return True
+
+		await self.has_nt(
+			inter
+		)
+
+	async def get_timestamp(self, minutes: int, discord: bool = True):
+		now = datetime.now(tz=timezone)
+		days: timedelta = timedelta(minutes=minutes)
+
+		result = int(str((now + days).timestamp()).split(".")[0])
+
+		if discord:
+			return f"<t:{result}:R>"
+		return result
+
+	def timestamp(self, dt: datetime):
+		return f"<t:{int(str(dt.timestamp()).split('.')[0])}:R>"
+
+	def get_img(self, type, cat) -> str:
+		url = f'https://api.waifu.pics/{type}/{cat}'
+
+		response = requests.get(
+			url=url
+		)
+
+		data: dict[str: str] = json.loads(response.text)
+
+		return data['url']
+
+	async def define_guild(self, inter: nextcord.Interaction, master_or_user='master') -> str:
+
+		for _ in config.ALL_GUILDS:
+			r = GuildsManager(_.lower()).get_data().master_role_id if master_or_user == 'master' else GuildsManager(_.lower()).get_data().role_id
+			if has_role(role=inter.guild.get_role(r), user=inter.user):
+				return _.lower()
+
+	async def bad_callback(self, interaction: nextcord.Interaction or nextcord.Message, message: str):
+		return await interaction.send(
+			ephemeral=True,
+			embed=CustomEmbed(
+				embed=nextcord.Embed(
+					title="Ошибка!",
+					description=message
+				)
+			).error
+		) if isinstance(interaction, nextcord.Interaction) else await interaction.reply(
+			embed=CustomEmbed(
+				embed=nextcord.Embed(
+					title="Ошибка!",
+					description=message
+				)
+			).error
+		)
+
+
+class CommandsMixin:
+
+	async def not_implemented_command(self, inter: nextcord.Interaction):
+		return await inter.send(
+			ephemeral=True,
+			embed=CustomEmbed.not_implemented()
+		)

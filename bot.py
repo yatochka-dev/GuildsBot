@@ -1,10 +1,13 @@
 import os
+import sys
 from typing import List, Tuple
+
 import nextcord
 from nextcord.ext import commands
-from slavebot import InvitesManager
+
 from _config import Config
-import sys
+from slavebot import InvitesManager
+
 sys.setrecursionlimit(5000)
 config = Config()
 
@@ -21,6 +24,7 @@ def load_cogs(_allowed_cogs: List[str] or Tuple[str]) -> None:
 
 	logger.success("Loaded cogs")
 
+
 def reload_cogs(_allowed_cogs: List[str] or Tuple[str]) -> None:
 	for file in os.listdir("./cogs"):
 		if file.endswith(".py") and str(file[:-3]) in _allowed_cogs:
@@ -30,6 +34,7 @@ def reload_cogs(_allowed_cogs: List[str] or Tuple[str]) -> None:
 
 	logger.success("Loaded cogs")
 
+
 async def app_commands():
 	for guild_id in config.get_test_guilds:
 		guild = bot.get_guild(guild_id)
@@ -38,10 +43,8 @@ async def app_commands():
 
 @bot.event
 async def on_ready():
-
 	InvitesManager.clear_invites()
 	logger.success("Started bot inside {}!".format(bot.user))
-
 
 
 @bot.slash_command(name="forme")
@@ -54,6 +57,7 @@ async def forme(_interaction: nextcord.Interaction):
 	# await interaction.response.send_modal(device)
 	pass
 
+
 @bot.slash_command(
 	name="do",
 	description="Админ команда"
@@ -65,6 +69,7 @@ async def admin_do(_inter: nextcord.Interaction, do: str):
 	:param _inter: typeof: Interaction
 	:return: None
 	"""
+
 
 if __name__ == '__main__':
 	load_cogs(config.get_allowed_cogs)

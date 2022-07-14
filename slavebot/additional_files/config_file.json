@@ -1,0 +1,43 @@
+{
+    "ROLE": {
+        "role_Dendro": 865581684053639198,
+        "role_Hydro": 878669627792687216,
+        "role_Pyro": 878669209314418708,
+        "role_Cryo": 877604100706025482,
+        "role_Anemo": 865581635167453194,
+        "role_Electro": 878669444086370304,
+        "role_Geo": 878669876825305150
+    },
+    "CHANNEL": {
+        "channel_Geo": 865577115768717312,
+        "channel_Electro": 865577149599186974,
+        "channel_Anemo": 865577085077815326,
+        "channel_Cryo": 865577269706489866,
+        "channel_Pyro": 865577208370561055,
+        "channel_Hydro": 865577353556262932,
+        "channel_Dendro": 865577426720653353
+    },
+    "GUILD": {
+        "guild_Dendro": 664791134211670018,
+        "guild_Hydro": 456124623973646340,
+        "guild_Pyro": 899774281376997427,
+        "guild_Cryo": 944610452854439947,
+        "guild_Anemo": 468511418204028958,
+        "guild_Electro": 616700887175528468,
+        "guild_Geo": 704263586503065661
+    },
+    "TIME_ROLE": {
+        "guild-vision_Sasare": 430303484022226955,
+        "guild-master_Dendro": 870625048514408479,
+        "guild-master_Geo": 870624936245469264,
+        "guild-master_Pyro": 870624467016110090,
+        "guild-master_Hydro": 870624824358215690,
+        "guild-master_Electro": 870624615469289504,
+        "guild-master_Anemo": 870622209167728690,
+        "guild-master_Cryo": 870624189621604392,
+        "guild-vision_Awakusu": 361198710551740428
+    },
+    "DATETIME": {
+        "offset": 3
+    }
+}
