@@ -15,6 +15,7 @@ timezone = config.get_timezone
 
 
 class Voting(DataMixin, commands.Cog):
+	emoji = ''
 
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot

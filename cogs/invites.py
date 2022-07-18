@@ -16,6 +16,7 @@ timezone = config.get_timezone
 
 
 class SpeechesList(commands.Cog):
+	emoji = ''
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
 		self.default_server: nextcord.Guild or None = None
@@ -27,6 +28,7 @@ class SpeechesList(commands.Cog):
 
 	async def assign_default_server(self):
 		await self.bot.wait_until_ready()
+		self.bot.add_view(GuildView(self.bot, check_device=CheckDevice, invite_modal=InviteModal))
 		self.default_server = self.bot.get_guild(config.base_server)
 
 	@commands.Cog.listener(
@@ -165,6 +167,8 @@ class SpeechesList(commands.Cog):
 		sorted_guilds = await self.__sort_guilds_by_members()
 		guild_buttons = GuildView(self.bot, check_device=CheckDevice, invite_modal=InviteModal)
 
+		self.bot.add_view(guild_buttons)
+
 		for _ in sorted_guilds:
 			_ = _.lower()
 			embed = await self.generate_guild_embed(_)
@@ -203,7 +207,7 @@ class SpeechesList(commands.Cog):
 
 
 class InvitesCogManager(DataMixin, CommandsMixin, commands.Cog):
-
+	emoji = ''
 	def __init__(self, bot):
 		self.bot = bot
 

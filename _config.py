@@ -3,7 +3,7 @@ import os
 from datetime import timezone, timedelta
 from pathlib import Path
 from typing import List, Tuple
-
+from pymongo import MongoClient
 import loguru
 import nextcord
 
@@ -89,6 +89,7 @@ class SecureConfig(BaseConfig):
 
 	def __init__(self):
 		self.TOKEN = self.get_key('DISCORD_TOKEN')
+		self.MONGO_URI = self.get_key('MONGO_URI')
 
 	def get_key(self, key_name: str) -> str:
 		with open(
@@ -113,7 +114,7 @@ class Config(InvitesConfig, SecureConfig, BaseConfig):
 	PREFIX = "+"
 	TEST_PREFIX = ")"
 
-	ALLOWED_COGS = ("stuff", "invites", "master", 'voting')
+	ALLOWED_COGS = ("stuff", "invites", "master", 'voting', 'help')
 	LOGGER = LOGGER
 
 	TIMEZONE = TIMEZONE
@@ -134,6 +135,7 @@ class Config(InvitesConfig, SecureConfig, BaseConfig):
 
 	def __init__(self):
 		super(Config, self).__init__()
+		self.MONGO_CLIENT = MongoClient(self.MONGO_URI)
 		if self.DEBUG:
 			self.logs_channel = 875032054469894195
 			self.invites_channel = 898642365017890836
@@ -186,8 +188,6 @@ class Config(InvitesConfig, SecureConfig, BaseConfig):
 def main() -> None:
 	c = Config()
 
-	print(c.TOKEN)
-	print(c.DB_PATH)
 
 
 if __name__ == '__main__':

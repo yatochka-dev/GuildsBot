@@ -1,7 +1,7 @@
 import asyncio
 import random
 import re
-from typing import Tuple, List
+from typing import Tuple, List, Optional
 
 import nextcord
 from nextcord import Interaction, TextInputStyle
@@ -374,7 +374,10 @@ class MasterMembers(nextcord.ui.Select):
 			placeholder="Выберите страницу"
 		)
 
+		self.data: Optional[dict] = {}
+
 	async def callback(self, interaction: Interaction):
+		self.interaction = interaction
 		if self.user == interaction.user:
 
 			chosen = self.values[0]
@@ -382,11 +385,12 @@ class MasterMembers(nextcord.ui.Select):
 
 			embed = self.embeds[_id]
 
-			msg = interaction.message
-
-			await msg.edit(
-				embed=embed
+			await interaction.response.edit_message(
+				content="",
+				embed=embed,
 			)
+			self.data['embed'] = embed
+
 		else:
 			await interaction.send(
 				embed=CustomEmbed.no_perm(),
@@ -394,9 +398,9 @@ class MasterMembers(nextcord.ui.Select):
 			)
 
 
-class MasterMembersView(nextcord.ui.View):
-	def __init__(self, embeds: List[nextcord.Embed], user: nextcord.Member):
-		super(MasterMembersView, self).__init__(timeout=300)  # 5 минут
+class ListEmbedsView(nextcord.ui.View):
+	def __init__(self, embeds: List[nextcord.Embed], user: nextcord.Member, base_embed: nextcord.Embed, button: bool = False, edit: callable = None):
+		super(ListEmbedsView, self).__init__(timeout=300)  # 5 минут
 
 		self.menu = MasterMembers(
 			embeds=embeds,
@@ -407,5 +411,51 @@ class MasterMembersView(nextcord.ui.View):
 			self.menu
 		)
 
+		if not button:
+			self.clear_items()
+			self.add_item(self.menu)
+
+		self.embed: Optional[nextcord.Embed] = base_embed
+		self.message: Optional[nextcord.Message] = None
+		self.edit: Optional[callable] = edit
+
+	@nextcord.ui.button(
+		label="Отобразить пользователей",
+		style=nextcord.ButtonStyle.blurple
+	)
+	@logger.catch()
+	async def show(self, _btn, _inter: Interaction):
+		msg = await _inter.send(
+			embed=CustomEmbed.working_on(),
+			ephemeral=True
+		)
+		try:
+			self.embed: nextcord.Embed or None = self.menu.data.get('embed', self.embed)
+			edit: callable = self.edit
+
+			text = ""
+
+			for f in self.embed.fields:
+				text += f'\n{f.value}'
+
+			await edit(
+				content=text
+			)
+		except Exception as exc:
+			await msg.edit(
+				embed=CustomEmbed.has_error(exc)
+			)
+			raise exc from exc
+		else:
+			await msg.edit(
+				embed=CustomEmbed.done()
+			)
+
 	async def on_timeout(self) -> None:
-		self.remove_item(self.menu)
+		self.clear_items()
+		await self.message.edit(view=self)
+
+	def add_msg(self, msg: nextcord.Message or nextcord.InteractionMessage):
+		self.msg = msg
+
+		return self

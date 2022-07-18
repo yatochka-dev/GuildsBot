@@ -53,7 +53,7 @@ def do_create_years_list() -> list:
 	return years
 
 
-def do_get_genders_list():
+def do_get_genders_list() -> list:
 	return [
 		SelectOption(
 			label=f"{gender}",
@@ -63,7 +63,7 @@ def do_get_genders_list():
 	]
 
 
-def do_get_activities_list():
+def do_get_activities_list() -> list:
 	return [
 		SelectOption(
 			label=f"{activity}",

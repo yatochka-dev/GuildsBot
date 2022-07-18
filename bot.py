@@ -6,7 +6,8 @@ import nextcord
 from nextcord.ext import commands
 
 from _config import Config
-from slavebot import InvitesManager
+from slavebot import *
+from slavebot import __version__ as bot_version
 
 sys.setrecursionlimit(5000)
 config = Config()
@@ -44,18 +45,8 @@ async def app_commands():
 @bot.event
 async def on_ready():
 	InvitesManager.clear_invites()
-	logger.success("Started bot inside {}!".format(bot.user))
-
-
-@bot.slash_command(name="forme")
-async def forme(_interaction: nextcord.Interaction):
-	# device = check_device(
-	# 	modal=invite_modal,
-	# 	guild="Pyro",
-	# 	bot=bot,
-	# )
-	# await interaction.response.send_modal(device)
-	pass
+	logger.success("Started bot inside {}!"
+	               "-Slavebot v{}".format(bot.user, bot_version.get()))
 
 
 @bot.slash_command(
@@ -70,8 +61,10 @@ async def admin_do(_inter: nextcord.Interaction, do: str):
 	:return: None
 	"""
 
+@logger.catch()
+def run():
+	load_cogs(config.get_allowed_cogs)
+	bot.run(config.get_token)
 
 if __name__ == '__main__':
-	load_cogs(config.get_allowed_cogs)
-
-	bot.run(config.get_token)
+	run()

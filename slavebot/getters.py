@@ -1,6 +1,6 @@
 import nextcord
 
-from slavebot import GetMessageView
+from .views import GetMessageView
 
 
 class TextGetter:

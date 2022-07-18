@@ -124,7 +124,7 @@ class DataMixin:
 			)
 
 	@logger.catch()
-	def get_timestamp(self, days: int = "", hours: int = 0, minutes: int = 0, seconds: int = 0, discord: bool = True, style: str = "R"):
+	def get_timestamp(self, days: int = 0, hours: int = 0, minutes: int = 0, seconds: int = 0, discord: bool = True, style: str = "R"):
 		now = datetime.now(tz=timezone)
 		days: timedelta = timedelta(days=days, hours=hours, minutes=minutes, seconds=seconds)
 

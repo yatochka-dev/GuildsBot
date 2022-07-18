@@ -2,12 +2,10 @@ from typing import List
 
 import nextcord
 from nextcord import Interaction, slash_command
-from nextcord.ext.commands import Cog, Bot, Paginator
+from nextcord.ext.commands import Cog, Bot
 
-
-
-from slavebot import *
 from _config import Config
+from slavebot import *
 
 config = Config()
 
@@ -15,6 +13,7 @@ logger = config.get_logger
 
 
 class MasterCommands(DataMixin, TextGetter, Cog):
+	emoji = ''
 
 	def __init__(self, bot: Bot):
 		self.bot = bot
@@ -97,7 +96,6 @@ class MasterCommands(DataMixin, TextGetter, Cog):
 		for i in range(0, len(lst), n):
 			yield lst[i:i + n]
 
-
 	@slash_command(
 		name='members'
 	)
@@ -108,6 +106,12 @@ class MasterCommands(DataMixin, TextGetter, Cog):
 				guild_role.members, 12
 			)
 		]
+
+		if len(divided_members) > 25:
+			return await inter.send(
+				embed=CustomEmbed.has_error(exc="Слишком много пользователей имеют эту роль."),
+				ephemeral=True,
+			)
 
 		embeds = []
 		i = 1
@@ -120,8 +124,8 @@ class MasterCommands(DataMixin, TextGetter, Cog):
 					            f"{self.get_timestamp(minutes=5, discord=True, style='T')}"
 				)
 			).normal
-			for member in l:
 
+			for member in l:
 				embed.add_field(
 					name=f"#{i}",
 					value=f"{member.mention} - {member.id}"
@@ -131,13 +135,13 @@ class MasterCommands(DataMixin, TextGetter, Cog):
 			page += 1
 			embeds.append(embed)
 
-
 		if len(embeds) > 1:
 			try:
-				view = MasterMembersView(
+				view = ListEmbedsView(
 					embeds=embeds,
 					user=inter.user,
-
+					button=True,
+					base_embed=embeds[0],
 
 				)
 			except ValueError as exc:
@@ -146,13 +150,20 @@ class MasterCommands(DataMixin, TextGetter, Cog):
 					f"{exc}"
 				)
 
-			await inter.send(
+			msg = await inter.send(
 				embed=embeds[0],
 				view=view,
-
+				ephemeral=True
 			)
+			view.edit = msg.edit
+			view.message = msg
+
+
+
 		else:
 			await inter.send(embed=embeds[0])
+
+
 
 	@logger.catch()
 	async def callback(self, do: str, inter: Interaction, guild: str):

@@ -8,7 +8,6 @@ import re
 import secrets
 from asyncio import TimeoutError
 from datetime import datetime
-import views
 import loguru
 import nextcord
 import nextcord as discord
@@ -16,7 +15,7 @@ import nextcord as discord
 from nextcord.ext import commands as com, tasks
 from nextcord.ext.commands.errors import MissingPermissions, BotMissingPermissions
 
-import models
+from slavebot.ext import models
 from utils import GuildDefense
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))

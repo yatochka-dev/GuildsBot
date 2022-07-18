@@ -11,12 +11,13 @@ logger = config.get_logger
 
 
 class AdminPanel(DataMixin, commands.Cog):
+	emoji = ''
 	def __init__(self, bot):
 		self.bot = bot
 
 	@slash_command(
 		name='sql',
-		description="Выполняет запрос указаный при вызове команды в базе данных"
+		description="Выполняет запрос указаный при вызове команды в базе данных",
 	)
 	async def do_sql(self, inter: Interaction, sql: str):
 		if await self.has_perms(inter=inter):
@@ -46,6 +47,13 @@ class AdminPanel(DataMixin, commands.Cog):
 			await inter.send(
 				embed=embed
 			)
+
+	@slash_command(
+		name='testdb',
+
+	)
+	async def test(self, inter: Interaction):
+		main()
 
 
 def setup(bot):
