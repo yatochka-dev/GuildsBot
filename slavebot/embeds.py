@@ -54,10 +54,8 @@ class CustomEmbed:
 	def great(self) -> nextcord.Embed:
 		return self.base(nextcord.Color.green())
 
-
-
 	@classmethod
-	def no_perm(cls) -> nextcord.Embed:
+	def no_perm(cls, *args, **kwargs) -> nextcord.Embed:
 		return cls(
 			nextcord.Embed(
 				title="Ошибка",
@@ -66,8 +64,8 @@ class CustomEmbed:
 		).error
 
 	@classmethod
-	def unable_to(cls) -> nextcord.Embed:
-		return cls(
+	def unable_to(cls, *args, **kwargs) -> nextcord.Embed:
+		return CustomEmbed(
 			nextcord.Embed(
 				title="Ошибка",
 				description="Невозможно загрузить контент связанный с этим взаимодействием."
@@ -75,7 +73,7 @@ class CustomEmbed:
 		).error
 
 	@classmethod
-	def working_on(cls) -> nextcord.Embed:
+	def working_on(cls, *args, **kwargs) -> nextcord.Embed:
 		return cls(
 			nextcord.Embed(
 				title=". . .",
@@ -84,7 +82,7 @@ class CustomEmbed:
 		).normal
 
 	@classmethod
-	def done(cls):
+	def done(cls, *args, **kwargs):
 		return cls(
 			nextcord.Embed(
 				title="Успешно",
@@ -93,7 +91,7 @@ class CustomEmbed:
 		).great
 
 	@classmethod
-	def not_implemented(cls):
+	def not_implemented(cls, *args, **kwargs):
 		return cls(
 			embed=nextcord.Embed(
 				title="Хелп",
@@ -102,7 +100,7 @@ class CustomEmbed:
 		).error
 
 	@classmethod
-	def has_error(cls, exc=None) -> nextcord.Embed:
+	def has_error(cls, exc=None, *args, **kwargs) -> nextcord.Embed:
 		exc = exc if exc else ""
 		return cls(
 			nextcord.Embed(
@@ -131,6 +129,71 @@ class ResponseEmbed(CustomEmbed):
 
 		)
 		return embed
+
+	@classmethod
+	def no_perm(cls, user: nextcord.User or nextcord.Member) -> nextcord.Embed:
+		return cls(
+			nextcord.Embed(
+				title="Ошибка",
+				description="Недостаточно прав для этого взаимодействия!"
+			),
+			user
+		).error
+
+	@classmethod
+	def unable_to(cls, user: nextcord.User or nextcord.Member, unable_to: str="загрузить контент связанный с этим взаимодействием") -> nextcord.Embed:
+		unable_to = " " + unable_to
+		unable_to = unable_to.strip()
+
+		return cls(
+			nextcord.Embed(
+				title="Ошибка",
+				description=f"Невозможно{unable_to}."
+			),
+			user
+		).error
+
+	@classmethod
+	def working_on(cls, user: nextcord.User or nextcord.Member) -> nextcord.Embed:
+		return cls(
+			nextcord.Embed(
+				title=". . .",
+				description="Произвожу вычисления..."
+			),
+			user
+		).normal
+
+	@classmethod
+	def done(cls, user: nextcord.User or nextcord.Member):
+		return cls(
+			nextcord.Embed(
+				title="Успешно",
+				description="Действие успешно выполнено!"
+			),
+			user
+		).great
+
+	@classmethod
+	def not_implemented(cls, user: nextcord.User or nextcord.Member):
+		return cls(
+			nextcord.Embed(
+				title="Ошибка",
+				description="Этой команды ещё нет, обидно, правда?"
+			),
+			user
+		).error
+
+	@classmethod
+	def has_error(cls, exc=None, *args, **kwargs) -> nextcord.Embed:
+		exc = exc if exc else ""
+		user = kwargs.get('user', None)
+		return cls(
+			nextcord.Embed(
+				title="Ошибка",
+				description=f"Произошла неожиданная ошибка! \n {exc}"
+			),
+			user
+		).error
 
 
 class EmbedWithUsers:

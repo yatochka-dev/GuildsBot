@@ -47,6 +47,8 @@ class Voting(DataMixin, commands.Cog):
 
 		selected_reacts: List[nextcord.Emoji] = []
 
+		logger.info(f"{message.reactions}")
+
 		for _ in r:
 			if _.emoji == react:
 				async for member in _.users(limit=40):
@@ -79,7 +81,7 @@ class Voting(DataMixin, commands.Cog):
 			embed = CustomEmbed(
 				nextcord.Embed(
 					title='Выборы!',
-					description=f"Сегодня начинается второй этап выборов, закончится он {self.get_timestamp((60 * 24), discord=True)}!\n\n**Вы должны выбрать ГМ-а который будет править до "
+					description=f"Сегодня начинается второй этап выборов, закончится он {self.get_timestamp(days=1, discord=True)}!\n\n**Вы должны выбрать ГМ-а который будет править до "
 					            f"середины "
 					            f"следующего "
 					            f"месяца!**\n\n{text}\n\n\nВыберите кандидата из списка, и нажми на прилагающуюся к нему реакцию! "
@@ -133,7 +135,7 @@ class Voting(DataMixin, commands.Cog):
 					"Неизвестная гильдия!"
 				)
 			else:
-				c = tools.CheckUser(
+				c = CheckUser(
 					self.bot,
 					self.bot.get_guild(config.base_server),
 					master
@@ -199,6 +201,7 @@ class Voting(DataMixin, commands.Cog):
 					embed=CustomEmbed.done(),
 					ephemeral=True
 				)
+
 
 
 def setup(bot: commands.Bot):

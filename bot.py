@@ -1,5 +1,4 @@
 import os
-import sys
 from typing import List, Tuple
 
 import nextcord
@@ -9,7 +8,6 @@ from _config import Config
 from slavebot import *
 from slavebot import __version__ as bot_version
 
-sys.setrecursionlimit(5000)
 config = Config()
 
 bot = commands.Bot(command_prefix=commands.when_mentioned_or(config.get_prefix), intents=nextcord.Intents.all())
@@ -45,26 +43,63 @@ async def app_commands():
 @bot.event
 async def on_ready():
 	InvitesManager.clear_invites()
-	logger.success("Started bot inside {}!"
-	               "-Slavebot v{}".format(bot.user, bot_version.get()))
+	logger.success(f"Logged in as {bot.user.name}")
+	logger.info(f"Bot version: {bot_version}")
+	logger.info(f"Bot ID: {bot.user.id}")
+	logger.info(f"Bot guilds: {len(bot.guilds)}")
+
+	if len(bot.guilds) > 2:
+		logger.warning("More than 2 guilds connected")
+		for g in bot.guilds:
+			logger.info(f"Guild: {g.name}")
+
+	logger.info(f"Bot users: {len(bot.users)}")
+	logger.info(f"Bot voice channels: {len(bot.voice_clients)}")
 
 
 @bot.slash_command(
 	name="do",
 	description="Админ команда"
 )
-async def admin_do(_inter: nextcord.Interaction, do: str):
-	"""
-	@ToDo Сделать типа команду, которая принимает аргумент, и на типа если написать в аргументе <selected do>reload_messages</selected> то бот перевышлет сообщения
+async def admin_do(inter: nextcord.Interaction, do: str, channel_id: str = None, role: nextcord.Role = None, member: nextcord.Member = None):
+	f_do, f_rate = await AdminMixin.admin_do(
+		do
+	)
 
-	:param _inter: typeof: Interaction
-	:return: None
-	"""
+	[callback, is_async] = await AdminMixin.admin_do_getCallback(f_do, bot=bot)
+
+	kwargs = {
+		f'{"channel" if isinstance(_, nextcord.TextChannel) else "role" if isinstance(_, nextcord.Role) else "member" if isinstance(_, nextcord.Member) else ""}':
+			_ for _ in [inter.guild.get_channel(int(channel_id)), role, member] if _ is not None
+	}
+
+	view = CallbackCloseView(
+		callback=callback,
+		user=inter.user,
+		is_async=is_async,
+		**kwargs,
+
+	)
+
+	await inter.send(
+		embed=ResponseEmbed(
+			nextcord.Embed(
+				title="Выполнить действие?",
+				description=f"{do} схожа с командой {f_do} на {f_rate}%"
+
+			),
+			inter.user
+		).normal,
+		ephemeral=True,
+		view=view
+	)
+
 
 @logger.catch()
 def run():
 	load_cogs(config.get_allowed_cogs)
 	bot.run(config.get_token)
+
 
 if __name__ == '__main__':
 	run()

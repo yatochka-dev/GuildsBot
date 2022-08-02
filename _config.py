@@ -3,9 +3,10 @@ import os
 from datetime import timezone, timedelta
 from pathlib import Path
 from typing import List, Tuple
-from pymongo import MongoClient
+
 import loguru
 import nextcord
+from pymongo import MongoClient
 
 LOGGER = loguru.logger
 TIMEZONE = timezone(offset=timedelta(hours=3), name="UTC")
@@ -113,8 +114,9 @@ class Config(InvitesConfig, SecureConfig, BaseConfig):
 
 	PREFIX = "+"
 	TEST_PREFIX = ")"
+	# add cog to ALLOWED_COGS
 
-	ALLOWED_COGS = ("stuff", "invites", "master", 'voting', 'help')
+	ALLOWED_COGS = ("stuff", "master", 'voting', 'help', 'presence', 'admin', )
 	LOGGER = LOGGER
 
 	TIMEZONE = TIMEZONE
@@ -155,8 +157,12 @@ class Config(InvitesConfig, SecureConfig, BaseConfig):
 		return self.ALLOWED_COGS
 
 	@property
-	def get_logger(self):
+	def get_logger(self) -> loguru.logger:
 		return self.LOGGER
+
+	@get_logger.setter
+	def get_logger(self, logger):
+		self.LOGGER = logger
 
 	@property
 	def get_timezone(self):
@@ -186,8 +192,7 @@ class Config(InvitesConfig, SecureConfig, BaseConfig):
 
 
 def main() -> None:
-	c = Config()
-
+	pass
 
 
 if __name__ == '__main__':

@@ -72,7 +72,8 @@ class HelpCommandCog(Cog, name='help'):
 		embeds = self.cogs_embeds()
 		view = ListEmbedsView(
 			embeds=embeds,
-			user=inter.user
+			user=inter.user,
+			base_embed=embeds[0],
 		)
 
 		try:

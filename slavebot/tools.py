@@ -7,7 +7,8 @@ from nextcord.ext import commands
 from _config import Config
 from slavebot import *
 config = Config()
-
+from  .InvitesManager import InvitesManager
+from  .GuildsManager import GuildsManager
 logger = config.get_logger
 
 

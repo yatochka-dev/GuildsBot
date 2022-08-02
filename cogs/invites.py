@@ -17,6 +17,9 @@ timezone = config.get_timezone
 
 class SpeechesList(commands.Cog):
 	emoji = ''
+
+	invites_cog: bool = True
+
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
 		self.default_server: nextcord.Guild or None = None
@@ -25,6 +28,10 @@ class SpeechesList(commands.Cog):
 		self.stopped = False
 
 		self.send.start()
+
+
+	def __str__(self):
+		return "Cog " + self.__class__.__name__
 
 	async def assign_default_server(self):
 		await self.bot.wait_until_ready()
@@ -162,7 +169,7 @@ class SpeechesList(commands.Cog):
 			limit=200,
 		)
 
-	async def __update_messages(self, channel: nextcord.TextChannel):
+	async def update_messages(self, channel: nextcord.TextChannel):
 
 		sorted_guilds = await self.__sort_guilds_by_members()
 		guild_buttons = GuildView(self.bot, check_device=CheckDevice, invite_modal=InviteModal)
@@ -176,7 +183,7 @@ class SpeechesList(commands.Cog):
 
 		await channel.send(embed=await self.generate_buttons_embed(), view=guild_buttons)
 
-	async def __update_db(self):
+	async def update_db(self):
 		logger.info("Updating DB")
 		for _ in config.ALL_GUILDS:
 			_ = _.lower()
@@ -199,11 +206,11 @@ class SpeechesList(commands.Cog):
 		timings = await self.__create_timings(now)
 
 		if now_time in timings:
-			await self.__update_db()
+			await self.update_db()
 
 
 # if not self.stopped:
-# 	await self.__update_messages()
+# 	await self.update_messages()
 
 
 class InvitesCogManager(DataMixin, CommandsMixin, commands.Cog):

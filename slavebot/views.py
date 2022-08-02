@@ -443,7 +443,7 @@ class ListEmbedsView(nextcord.ui.View):
 			)
 		except Exception as exc:
 			await msg.edit(
-				embed=CustomEmbed.has_error(exc)
+				embed=CustomEmbed.has_error(exc=exc)
 			)
 			raise exc from exc
 		else:
@@ -459,3 +459,43 @@ class ListEmbedsView(nextcord.ui.View):
 		self.msg = msg
 
 		return self
+
+
+class CallbackCloseView(nextcord.ui.View, DataMixin):
+
+	def __init__(self, callback: callable, user: nextcord.User, is_async: bool, *args, **kwargs):
+		super(CallbackCloseView, self).__init__(timeout=300)
+
+		self.user = user
+		self.callback = callback
+		self.is_async = is_async
+
+		self.args = args
+		self.kwargs = kwargs
+
+	async def __check__(self, inter):
+		if inter.user == self.user:
+			return True
+		else:
+			return await self.bad_callback(inter)
+
+	@nextcord.ui.button(
+		label="Закрыть",
+		style=nextcord.ButtonStyle.red
+	)
+	async def close(self, _btn, _inter: nextcord.Interaction):
+		if await self.__check__(_inter):
+			self.stop()
+
+	@nextcord.ui.button(
+		label="GO",
+		style=nextcord.ButtonStyle.green
+	)
+	async def go(self, _btn, _inter: nextcord.Interaction):
+		if await self.__check__(_inter):
+			if self.is_async:
+				await self.callback(*self.args, **self.kwargs)
+			else:
+				self.callback(*self.args, **self.kwargs)
+
+			self.stop()

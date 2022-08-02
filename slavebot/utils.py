@@ -1,11 +1,12 @@
 import datetime
 import json
 from datetime import *
-from typing import Tuple, Any
-
+from typing import Tuple, Any, Literal, Callable
 import nextcord
 import requests
 from nextcord.ext import commands
+
+from fuzzywuzzy import fuzz
 
 from _config import Config
 from .GuildsManager import GuildsManager
@@ -180,9 +181,70 @@ class DataMixin:
 
 class CommandsMixin:
 
+
 	@logger.catch()
 	async def not_implemented_command(self, inter: nextcord.Interaction):
 		return await inter.send(
 			ephemeral=True,
 			embed=CustomEmbed.not_implemented()
 		)
+
+	@logger.catch()
+	async def get_guild_invite(self, guild: nextcord.Guild):
+		try:
+			for c in guild.channels:
+				if isinstance(c, nextcord.TextChannel):
+					return await c.create_invite(max_uses=99)
+		except Exception as exc:
+			logger.error("Ошибка при получении инвайта для гильдии {}\n\n{}".format(guild.name, exc))
+			return ""
+
+
+
+class AdminMixin:
+	ADMIN_DO_LIST: list = ['reload_messages', 'reload_database']
+	ADMIN_DO_TYPE = Literal['reload_messages', 'reload_database']
+
+	@classmethod
+	async def admin_do(cls, do: str) -> Tuple[ADMIN_DO_TYPE, int]:
+		for _ in cls.ADMIN_DO_LIST:
+			rate = fuzz.WRatio(
+				do, _
+			)
+			logger.info(f"{do} {_} {rate}")
+			if rate >= 70:
+				return _, rate
+			else:
+				continue
+
+		raise ValueError("Не найдено ни одной команды с таким названием!")
+
+	@classmethod
+	async def admin_do_getCallback(cls, do: ADMIN_DO_TYPE, bot: commands.Bot) -> Tuple[Callable, bool]:
+		cogs = bot.cogs
+
+		for c in cogs:
+			cog: commands.Cog = bot.get_cog(c) if isinstance(c, str) else c
+			logger.info(str(cog))
+
+			try:
+				iic = cog.invites_cog # type: ignore
+			except AttributeError:
+				iic = False
+
+			logger.info("Is invites cog: {}".format(iic))
+			if iic:
+				if do == 'reload_messages':
+					return cog.update_messages, True
+				elif do == 'reload_database':
+					return cog.update_db, True
+				else:
+					continue
+
+
+		if do == 'reload_messages':
+			return cls.reload_messages, True
+		elif do == 'reload_database':
+			return cls.reload_database, True
+
+		raise ValueError("Не найдено ни одной команды с таким названием!")
