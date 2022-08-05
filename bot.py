@@ -61,9 +61,9 @@ async def on_ready():
 	name="do",
 	description="Админ команда"
 )
-async def admin_do(inter: nextcord.Interaction, do: str, channel_id: str = None, role: nextcord.Role = None, member: nextcord.Member = None):
+async def admin_do(inter: nextcord.Interaction, predo: str, channel_id: str = None, role: nextcord.Role = None, member: nextcord.Member = None):
 	f_do, f_rate = await AdminMixin.admin_do(
-		do
+		predo
 	)
 
 	[callback, is_async] = await AdminMixin.admin_do_getCallback(f_do, bot=bot)
@@ -85,7 +85,7 @@ async def admin_do(inter: nextcord.Interaction, do: str, channel_id: str = None,
 		embed=ResponseEmbed(
 			nextcord.Embed(
 				title="Выполнить действие?",
-				description=f"{do} схожа с командой {f_do} на {f_rate}%"
+				description=f"{predo} схожа с командой {f_do} на {f_rate}%"
 
 			),
 			inter.user

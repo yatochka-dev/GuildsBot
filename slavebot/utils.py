@@ -194,7 +194,7 @@ class CommandsMixin:
 		try:
 			for c in guild.channels:
 				if isinstance(c, nextcord.TextChannel):
-					return await c.create_invite(max_uses=99)
+					return await c.create_invite(unique=False)
 		except Exception as exc:
 			logger.error("Ошибка при получении инвайта для гильдии {}\n\n{}".format(guild.name, exc))
 			return ""
