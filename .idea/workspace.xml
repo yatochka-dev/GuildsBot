@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7764a0aa-2265-4f3f-a5fa-80b0e29131d5" name="Changes" comment="Million changes">
-      <change afterPath="$PROJECT_DIR$/cogs/spam.cog.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/GuildsBot.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GuildsBot.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="7764a0aa-2265-4f3f-a5fa-80b0e29131d5" name="Changes" comment="Dont know what i've changed here, but take my commit">
       <change beforePath="$PROJECT_DIR$/_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/_config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cogs/stuff.py" beforeDir="false" afterPath="$PROJECT_DIR$/cogs/stuff.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slavebot/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/slavebot/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -274,7 +267,7 @@
       <workItem from="1659252194545" duration="6446000" />
       <workItem from="1659291468147" duration="5392000" />
       <workItem from="1659419165188" duration="236000" />
-      <workItem from="1659711337855" duration="2672000" />
+      <workItem from="1659711337855" duration="3289000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1657762565833</created>
@@ -318,7 +311,14 @@
       <option name="project" value="LOCAL" />
       <updated>1659419284383</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Dont know what i've changed here, but take my commit">
+      <created>1659716361730</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1659716361730</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -354,7 +354,8 @@
     <MESSAGE value="/members guild_role: nextcord.Role - commands added into master.py cog" />
     <MESSAGE value="Some changes with embeds.py" />
     <MESSAGE value="Million changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Million changes" />
+    <MESSAGE value="Dont know what i've changed here, but take my commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Dont know what i've changed here, but take my commit" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/GuildsBot$GUILDSBOT.coverage" NAME="GUILDSBOT Coverage Results" MODIFIED="1659715314168" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

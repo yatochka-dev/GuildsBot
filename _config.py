@@ -116,7 +116,7 @@ class Config(InvitesConfig, SecureConfig, BaseConfig):
 	TEST_PREFIX = ")"
 	# add cog to ALLOWED_COGS
 
-	ALLOWED_COGS = ("stuff", "master", 'voting', 'help', 'presence', 'admin', )
+	ALLOWED_COGS = ("master", 'voting', 'help',)
 	LOGGER = LOGGER
 
 	TIMEZONE = TIMEZONE
@@ -137,7 +137,7 @@ class Config(InvitesConfig, SecureConfig, BaseConfig):
 
 	def __init__(self):
 		super(Config, self).__init__()
-		self.MONGO_CLIENT = MongoClient(self.MONGO_URI)
+		self.MONGO_CLIENT = None # MongoClient(self.MONGO_URI)
 		if self.DEBUG:
 			self.logs_channel = 875032054469894195
 			self.invites_channel = 898642365017890836
