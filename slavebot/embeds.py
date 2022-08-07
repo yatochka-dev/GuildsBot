@@ -120,8 +120,8 @@ class ResponseEmbed(CustomEmbed):
 	def base(self, color: nextcord.Color) -> nextcord.Embed:
 		embed = super(ResponseEmbed, self).base(color)
 
-		footer = f"{self.user.display_name}" if self.user else EmptyEmbed
-		icon_url = str(self.user.avatar.url) if self.user else EmptyEmbed
+		footer = f"{self.user.display_name}" if self.user and self.user.avatar.url else EmptyEmbed
+		icon_url = str(self.user.avatar.url) if self.user and self.user.avatar.url else EmptyEmbed
 
 		embed.set_footer(
 			text=footer,

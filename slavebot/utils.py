@@ -1,7 +1,7 @@
 import datetime
 import json
 from datetime import *
-from typing import Tuple, Any, Literal, Callable
+from typing import Tuple, Any, Literal, Callable, Optional
 import nextcord
 import requests
 from nextcord.ext import commands
@@ -103,6 +103,14 @@ class GuildDefense:
 class DataMixin:
 
 	@logger.catch()
+	def to_bool(self, value: Any):
+		if isinstance(value, int):
+			if value == 1:
+				return True
+			else:
+				return False
+
+	@logger.catch()
 	async def has_nt(self, inter: nextcord.Interaction) -> bool:
 		await inter.send(
 			embed=CustomEmbed.no_perm(),
@@ -181,7 +189,6 @@ class DataMixin:
 
 class CommandsMixin:
 
-
 	@logger.catch()
 	async def not_implemented_command(self, inter: nextcord.Interaction):
 		return await inter.send(
@@ -199,6 +206,14 @@ class CommandsMixin:
 			logger.error("Ошибка при получении инвайта для гильдии {}\n\n{}".format(guild.name, exc))
 			return ""
 
+	class MessageData:
+
+		def __init__(self, message: nextcord.Message):
+			self.message = message
+
+		@property
+		def has_attachments(self) -> Optional[int]:
+			return len(self.message.attachments) if self.message.attachments else None
 
 
 class AdminMixin:
@@ -228,7 +243,7 @@ class AdminMixin:
 			logger.info(str(cog))
 
 			try:
-				iic = cog.invites_cog # type: ignore
+				iic = cog.invites_cog  # type: ignore
 			except AttributeError:
 				iic = False
 
@@ -240,7 +255,6 @@ class AdminMixin:
 					return cog.update_db, True
 				else:
 					continue
-
 
 		if do == 'reload_messages':
 			return cls.reload_messages, True
