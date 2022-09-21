@@ -22,7 +22,7 @@ class CustomEmbed:
 
 	def base(self, color: nextcord.Color) -> nextcord.Embed:
 		self.embed.set_author(
-			name=f"Система управления гильдями!",
+			name=f"Система керування гільдіями!",
 			icon_url="https://cdn.discordapp.com/attachments/862044149779529750/956595788979535902/256.png",
 		)
 

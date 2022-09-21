@@ -194,9 +194,14 @@ class MasterCommands(DataMixin, TextGetter, Cog):
 			return await self.callback(do, inter, guild)
 		else:
 			await inter.send(
-				str(await inter.guild.fetch_emoji(868084062668095549))
+				str(await inter.guild.fetch_emoji(868084062668095549)) + f"{scripts}"
+
 			)
 
+	@call.on_autocomplete("do")
+	async def do_autocomplete(self, _inter: Interaction, value: str):
+		sc = ('тема', 'речь')
+		return sc if value not in sc else (value, )
 
 def setup(bot: Bot):
 	bot.add_cog(MasterCommands(bot))

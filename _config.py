@@ -116,7 +116,8 @@ class Config(InvitesConfig, SecureConfig, BaseConfig):
 	TEST_PREFIX = ")"
 	# add cog to ALLOWED_COGS
 
-	ALLOWED_COGS = ("master", 'voting', 'help',)
+	ALLOWED_COGS = ("master", 'voting', 'help', 'admin', 'stuff', 'spam',
+	                'invites', "events")
 	LOGGER = LOGGER
 
 	TIMEZONE = TIMEZONE

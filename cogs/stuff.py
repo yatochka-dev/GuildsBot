@@ -99,6 +99,41 @@ class Help(DataMixin, CommandsMixin, commands.Cog):
 				embed=embed
 			)
 
+	# top users by roles count
+	@slash_command(
+		name='top-users',
+		description="Получает топ пользователей по ролям"
+	)
+	async def top_users(self, inter: Interaction):
+		async def sort_top(users: list[nextcord.Member]) -> list:
+			return sorted(users, key=lambda x: len(x.roles), reverse=True)
+		# only for has perms users
+		if await self.has_perms(inter=inter):
+			embed = ResponseEmbed(
+				nextcord.Embed(
+					title="Топ пользователей",
+					description="Топ пользователей по ролям",
+				),
+				inter.user
+			).normal
+
+			i = 1
+			top_users = (await sort_top(inter.guild.members))[:25]
+
+			logger.info(f"{len(top_users)}")
+
+			for user in top_users:
+				embed.add_field(
+					name=f"#{i} {user.name}({user.id})",
+					value=f"Ролей - {len(user.roles)}",
+					inline=False
+				)
+				i += 1
+
+
+			await inter.send(
+				embed=embed
+			)
 
 	# spamming gif to chats command
 

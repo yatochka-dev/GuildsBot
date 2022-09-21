@@ -67,6 +67,9 @@ class AdminPanel(DataMixin, commands.Cog):
 		if await self.has_perms(inter=inter):
 			i = 0
 			h = 0
+			msg = await inter.send(
+				embed=ResponseEmbed.working_on(inter.user)
+			)
 			for member in role_to.members:
 				i += 1
 				if not has_role(role_to_be_given, member):
@@ -74,7 +77,7 @@ class AdminPanel(DataMixin, commands.Cog):
 				else:
 					h += 1
 
-			await inter.send(
+			await msg.edit(
 				embed=ResponseEmbed(
 					embed=nextcord.Embed(
 						title="Завершено",
@@ -89,6 +92,7 @@ class AdminPanel(DataMixin, commands.Cog):
 		name='rbm',
 	)
 	async def gmr(self, inter: Interaction, message_id: str, role: nextcord.Role):
+		await inter.response.defer()
 		end = False
 		try:
 			if await self.has_perms(inter=inter):
@@ -126,6 +130,39 @@ class AdminPanel(DataMixin, commands.Cog):
 				await inter.send(
 					embed=ResponseEmbed.has_error(exc=exc, user=inter.user)
 				)
+
+	@slash_command(
+		name='gercag'
+	)
+	async def gercag(self, inter: Interaction, name: str, color: str,
+	                 role_to: nextcord.Role):
+		if await self.has_perms(inter=inter):
+			role = await inter.guild.create_role(
+				name=name,
+				color=int(color, 16),
+			)
+			await self.give_role_many(
+				interaction=inter,
+				role_to=role_to,
+				role_to_be_given=role,
+			)
+
+	@slash_command(
+		name='gercagmsg'
+	)
+	async def gercagmsg(self, inter: Interaction, name: str, color: str,
+	                    message_id: str):
+		if await self.has_perms(inter=inter):
+			role = await inter.guild.create_role(
+				name=name,
+				color=int(color, 16),
+			)
+			await self.gmr(
+				interaction=inter,
+				message_id=message_id,
+				role=role,
+			)
+
 
 
 def setup(bot):

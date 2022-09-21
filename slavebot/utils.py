@@ -2,11 +2,11 @@ import datetime
 import json
 from datetime import *
 from typing import Tuple, Any, Literal, Callable
+
 import nextcord
 import requests
-from nextcord.ext import commands
-
 from fuzzywuzzy import fuzz
+from nextcord.ext import commands
 
 from _config import Config
 from .GuildsManager import GuildsManager
@@ -22,7 +22,10 @@ timezone = config.get_timezone
 class GuildDefense:
 	COOLDOWN_FILE = "additional_files/users_cooldown.json"
 
-	def __init__(self, bot: commands.Bot, server: nextcord.Guild, user: int, guild: str):
+	def __init__(
+			self, bot: commands.Bot, server: nextcord.Guild, user: int,
+			guild: str
+	):
 		self.bot, self.server = bot, server
 		self.user = user
 		self.guild = guild
@@ -35,7 +38,8 @@ class GuildDefense:
 	@property
 	def is_on_cooldown(self) -> Tuple[bool, Any]:
 		"""
-		:return: Type: tuple, tuple[0] - bool, tuple[1](only if tuple[0] is True) - dict[str, timestamp]
+		:return: Type: tuple, tuple[0] - bool, tuple[1](only if tuple[0] is
+		True) - dict[str, timestamp]
 		"""
 
 		dt_now = datetime.now(tz=timezone)
@@ -53,7 +57,9 @@ class GuildDefense:
 		return (True, result)
 
 	def timestamp(self, add: int = 120) -> str:
-		time_until_2m = datetime.fromtimestamp(float(self.is_on_cooldown[1].get("until", None))) + timedelta(seconds=add)
+		time_until_2m = datetime.fromtimestamp(
+			float(self.is_on_cooldown[1].get("until", None))) + timedelta(
+			seconds=add)
 
 		timestamp_until: str = str(time_until_2m.timestamp()).split(".")[0]
 
@@ -112,11 +118,15 @@ class DataMixin:
 		return False
 
 	@logger.catch()
-	async def has_perms(self, _user: nextcord.Member = None, inter: nextcord.Interaction = None) -> bool:
+	async def has_perms(
+			self, _user: nextcord.Member = None,
+			inter: nextcord.Interaction = None
+	) -> bool:
 		bot_admins = (686207718822117463,)
 		user = _user if _user else inter.user
 
-		if user.id in bot_admins or user.guild_permissions.administrator or user.guild_permissions.manage_guild:
+		if user.id in bot_admins or user.guild_permissions.administrator or \
+				user.guild_permissions.manage_guild:
 			return True
 
 		return \
@@ -125,9 +135,13 @@ class DataMixin:
 			)
 
 	@logger.catch()
-	def get_timestamp(self, days: int = 0, hours: int = 0, minutes: int = 0, seconds: int = 0, discord: bool = True, style: str = "R"):
+	def get_timestamp(
+			self, days: int = 0, hours: int = 0, minutes: int = 0,
+			seconds: int = 0, discord: bool = True, style: str = "R"
+	):
 		now = datetime.now(tz=timezone)
-		days: timedelta = timedelta(days=days, hours=hours, minutes=minutes, seconds=seconds)
+		days: timedelta = timedelta(days=days, hours=hours, minutes=minutes,
+		                            seconds=seconds)
 
 		result = int(str((now + days).timestamp()).split(".")[0])
 
@@ -152,15 +166,27 @@ class DataMixin:
 		return data['url']
 
 	@logger.catch()
-	async def define_guild(self, inter: nextcord.Interaction, master_or_user='master') -> str:
+	async def define_guild(
+			self, inter: nextcord.Interaction, master_or_user='master'
+	) -> str:
 
 		for _ in config.ALL_GUILDS:
-			r = GuildsManager(_.lower()).get_data().master_role_id if master_or_user == 'master' else GuildsManager(_.lower()).get_data().role_id
+			r = GuildsManager(
+				_.lower()).get_data().master_role_id if master_or_user == \
+			                                            'master' else \
+				GuildsManager(
+					_.lower()).get_data().role_id
 			if has_role(role=inter.guild.get_role(r), user=inter.user):
 				return _.lower()
 
 	@logger.catch()
-	async def bad_callback(self, interaction: nextcord.Interaction or nextcord.Message, message: str):
+	async def bad_callback(
+			self,
+			interaction: nextcord.Interaction or
+			             nextcord.Message,
+			message: str,
+			delete_after: int = None
+	):
 		return await interaction.send(
 			ephemeral=True,
 			embed=CustomEmbed(
@@ -169,18 +195,19 @@ class DataMixin:
 					description=message
 				)
 			).error
-		) if isinstance(interaction, nextcord.Interaction) else await interaction.reply(
+		) if isinstance(interaction,
+		                nextcord.Interaction) else await interaction.reply(
 			embed=CustomEmbed(
 				embed=nextcord.Embed(
 					title="Ошибка!",
 					description=message
 				)
-			).error
+			).error,
+			delete_after=delete_after
 		)
 
 
 class CommandsMixin:
-
 
 	@logger.catch()
 	async def not_implemented_command(self, inter: nextcord.Interaction):
@@ -196,9 +223,10 @@ class CommandsMixin:
 				if isinstance(c, nextcord.TextChannel):
 					return await c.create_invite(unique=False)
 		except Exception as exc:
-			logger.error("Ошибка при получении инвайта для гильдии {}\n\n{}".format(guild.name, exc))
+			logger.error(
+				"Ошибка при получении инвайта для гильдии {}\n\n{}".format(
+					guild.name, exc))
 			return ""
-
 
 
 class AdminMixin:
@@ -220,7 +248,9 @@ class AdminMixin:
 		raise ValueError("Не найдено ни одной команды с таким названием!")
 
 	@classmethod
-	async def admin_do_getCallback(cls, do: ADMIN_DO_TYPE, bot: commands.Bot) -> Tuple[Callable, bool]:
+	async def admin_do_getCallback(cls, do: ADMIN_DO_TYPE, bot: commands.Bot) \
+			-> \
+					Tuple[Callable, bool]:
 		cogs = bot.cogs
 
 		for c in cogs:
@@ -228,7 +258,7 @@ class AdminMixin:
 			logger.info(str(cog))
 
 			try:
-				iic = cog.invites_cog # type: ignore
+				iic = cog.invites_cog  # type: ignore
 			except AttributeError:
 				iic = False
 
@@ -240,7 +270,6 @@ class AdminMixin:
 					return cog.update_db, True
 				else:
 					continue
-
 
 		if do == 'reload_messages':
 			return cls.reload_messages, True

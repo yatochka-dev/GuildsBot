@@ -10,7 +10,8 @@ from slavebot import __version__ as bot_version
 
 config = Config()
 
-bot = commands.Bot(command_prefix=commands.when_mentioned_or(config.get_prefix), intents=nextcord.Intents.all())
+bot = commands.Bot(command_prefix=commands.when_mentioned_or(
+	config.get_prefix), intents=nextcord.Intents.all())
 logger = config.get_logger
 
 

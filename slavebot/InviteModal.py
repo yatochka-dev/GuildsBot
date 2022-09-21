@@ -1,14 +1,16 @@
 # x = nextcord.SelectOption(label="Test", description="Test desc")
 # y = nextcord.SelectOption(label="Test 2", description="Test desc 2")
 #
-# years = [nextcord.SelectOption(label=f"{number}", description=f"Мне {number} лет") for number in range(24)]
+# years = [nextcord.SelectOption(label=f"{number}", description=f"Мне {
+# number} лет") for number in range(24)]
 #
 # class TestModal(nextcord.ui.Modal):
 #
 # 	def __init__(self):
 # 		super(TestModal, self).__init__("Создание заявки типа вот так")
 #
-# 		self.t = nextcord.ui.Select(options=years, placeholder="Сколько вам лет?")
+# 		self.t = nextcord.ui.Select(options=years, placeholder="Сколько вам
+# 		лет?")
 #
 #
 # 	async def callback(self, interaction: nextcord.Interaction):
@@ -19,7 +21,12 @@ from nextcord.ext import commands
 from nextcord.ui import Modal, Select, TextInput  # NOQA
 
 from _config import Config
-from slavebot import *
+from .InviteSend import InviteSend
+from .InvitesManager import InvitesManager
+from .embeds import CustomEmbed
+from .tools import FormatData
+from .tools import get_year_end
+
 config = Config()
 
 logger = config.get_logger
@@ -89,7 +96,8 @@ class InviteModal(Modal):
 		min_length=15,
 		max_length=300,
 		required=True,
-		placeholder="Какие аспекты вы бы хотели видеть в гильдии? Например: Актив, Ивенты и т.п."
+		placeholder="Какие аспекты вы бы хотели видеть в гильдии? Например: "
+		            "Актив, Ивенты и т.п."
 	)
 
 	def __init__(self, mobile: bool, bot: commands.Bot, guild: str = ""):
@@ -101,53 +109,33 @@ class InviteModal(Modal):
 		self.mobile = mobile
 		self.bot = bot
 
-		if not self.mobile:
-			self.AGE_FIELD = Select(
-				custom_id="SELECT_AGE",
-				placeholder="Сколько вам лет?",
-				options=do_create_years_list(),
-				min_values=0,
-			)
-			self.GENDER_FIELD = Select(
-				custom_id="SELECT_GENDER",
-				placeholder="Ваш пол",
-				options=do_get_genders_list(),
-				min_values=0
-			)
+		# Если на мобилке
+		self.AGE_FIELD = TextInput(
+			label="Ваш возраст?",
+			style=TextInputStyle.short,
+			min_length=1,
+			max_length=5,
+			required=True,
+			placeholder="Сколько вам лет?",
+		)
+		self.GENDER_FIELD = TextInput(
+			label="Ваш пол?",
+			style=TextInputStyle.short,
+			min_length=1,
+			max_length=150,
+			required=True,
+			placeholder="Какого вы пола?)",
+		)
 
-			self.ACTIVITY_FIELD = Select(
-				custom_id="SELECT_ACTIVITY",
-				placeholder="Где вы активны?",
-				options=do_get_activities_list(),
-				min_values=0
-			)
-		else:
-			# Если на мобилке
-			self.AGE_FIELD = TextInput(
-				label="Ваш возраст?",
-				style=TextInputStyle.short,
-				min_length=1,
-				max_length=5,
-				required=True,
-				placeholder="Сколько вам лет?",
-			)
-			self.GENDER_FIELD = TextInput(
-				label="Ваш пол?",
-				style=TextInputStyle.short,
-				min_length=1,
-				max_length=150,
-				required=True,
-				placeholder="Какого вы пола?)",
-			)
-
-			self.ACTIVITY_FIELD = TextInput(
-				label="Активность?",
-				style=TextInputStyle.paragraph,
-				min_length=10,
-				max_length=150,
-				required=True,
-				placeholder="Где вы больше всего активны? (Обычный чат, Голосовой чат, И там и там?)",
-			)
+		self.ACTIVITY_FIELD = TextInput(
+			label="Активность?",
+			style=TextInputStyle.paragraph,
+			min_length=10,
+			max_length=150,
+			required=True,
+			placeholder="Где вы больше всего активны? (Обычный чат, "
+			            "Голосовой чат, или там и там?)",
+		)
 
 		self.add_item(self.AGE_FIELD)
 		self.add_item(self.GENDER_FIELD)
@@ -161,14 +149,11 @@ class InviteModal(Modal):
 
 	async def callback(self, interaction: Interaction) -> None:
 		try:
-			if self.mobile:
-				age = self.AGE_FIELD.value
-				gender = self.GENDER_FIELD.value
-				activity = self.ACTIVITY_FIELD.value
-			else:
-				age = self.AGE_FIELD._selected_values  # NOQA
-				gender = self.GENDER_FIELD._selected_values  # NOQA
-				activity = self.ACTIVITY_FIELD._selected_values  # NOQA
+
+			age = self.AGE_FIELD.value
+			gender = self.GENDER_FIELD.value
+			activity = self.ACTIVITY_FIELD.value
+
 		except Exception as exc:
 			raise LookupError(f"Ошибка получения данных {exc}") from exc
 
@@ -203,7 +188,9 @@ class InviteModal(Modal):
 
 		self.stop()
 
-	async def on_error(self, error: Exception, interaction: Interaction) -> None:
+	async def on_error(
+			self, error: Exception, interaction: Interaction
+			) -> None:
 		embed = CustomEmbed(
 			embed=nextcord.Embed(
 				title="Ошибка",

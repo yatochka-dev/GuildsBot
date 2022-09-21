@@ -1,8 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="7764a0aa-2265-4f3f-a5fa-80b0e29131d5" name="Changes" comment="Dont know what i've changed here, but take my commit">
+      <change afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cogs/events.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/slavebot/database.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/slavebot/db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DB/models.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/DB/models.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cogs/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/cogs/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cogs/invites.py" beforeDir="false" afterPath="$PROJECT_DIR$/cogs/invites.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cogs/master.py" beforeDir="false" afterPath="$PROJECT_DIR$/cogs/master.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cogs/spam.cog.py" beforeDir="false" afterPath="$PROJECT_DIR$/cogs/spam.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cogs/stuff.py" beforeDir="false" afterPath="$PROJECT_DIR$/cogs/stuff.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cogs/voting.py" beforeDir="false" afterPath="$PROJECT_DIR$/cogs/voting.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/req.packages.txt" beforeDir="false" afterPath="$PROJECT_DIR$/req.packages.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/slavebot/InviteModal.py" beforeDir="false" afterPath="$PROJECT_DIR$/slavebot/InviteModal.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/slavebot/InviteSend.py" beforeDir="false" afterPath="$PROJECT_DIR$/slavebot/InviteSend.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/slavebot/embeds.py" beforeDir="false" afterPath="$PROJECT_DIR$/slavebot/embeds.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/slavebot/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/slavebot/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/slavebot/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/slavebot/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/slavebot/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/slavebot/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,9 +41,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="cog" />
         <option value="nextcord-cog" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -40,21 +64,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Project.color": "202d40",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/IMOE001/PycharmProjects/GuildsBot/bot.py",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "ics",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Project.color&quot;: &quot;202d40&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/IMOE001/PycharmProjects/GuildsBot/bot.py&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\phili\PycharmProjects\GuildsBot" />
@@ -64,7 +90,7 @@
       <recent name="C:\Users\phili\PycharmProjects\GuildsBot\" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.GUILDSBOT">
+  <component name="RunManager" selected="Python.bot">
     <configuration name="GUILDSBOT" type="PythonConfigurationType" factoryName="Python">
       <module name="GuildsBot" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -72,9 +98,9 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\Users\IMOE001\PycharmProjects\GuildsBot\venv\Scripts\python.exe" />
+      <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
@@ -109,7 +135,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="commands" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="db" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GuildsBot" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -117,12 +143,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/cogs" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/slavebot" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cogs/commands.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/slavebot/db.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -222,12 +248,18 @@
     <list>
       <item itemvalue="Python.bot" />
       <item itemvalue="Python.GUILDSBOT" />
-      <item itemvalue="Python.commands" />
+      <item itemvalue="Python.db" />
       <item itemvalue="Python.guild" />
       <item itemvalue="Python.guild (1)" />
       <item itemvalue="Python.manager" />
       <item itemvalue="Python.models" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.db" />
+        <item itemvalue="Python.models" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -268,6 +300,34 @@
       <workItem from="1659291468147" duration="5392000" />
       <workItem from="1659419165188" duration="236000" />
       <workItem from="1659711337855" duration="3289000" />
+      <workItem from="1660295287829" duration="957000" />
+      <workItem from="1660381669880" duration="752000" />
+      <workItem from="1660477559240" duration="48000" />
+      <workItem from="1660485287861" duration="791000" />
+      <workItem from="1660647755348" duration="913000" />
+      <workItem from="1660757392750" duration="1622000" />
+      <workItem from="1660819173063" duration="1268000" />
+      <workItem from="1660822331672" duration="843000" />
+      <workItem from="1660846967631" duration="1505000" />
+      <workItem from="1661032880994" duration="1555000" />
+      <workItem from="1661180902794" duration="1444000" />
+      <workItem from="1661708023497" duration="707000" />
+      <workItem from="1661767509722" duration="3536000" />
+      <workItem from="1662473761406" duration="664000" />
+      <workItem from="1662558505058" duration="24000" />
+      <workItem from="1662725791201" duration="5254000" />
+      <workItem from="1662982334230" duration="616000" />
+      <workItem from="1663076464746" duration="1177000" />
+      <workItem from="1663246344283" duration="2341000" />
+      <workItem from="1663248860395" duration="2752000" />
+      <workItem from="1663254212405" duration="677000" />
+      <workItem from="1663267893497" duration="109000" />
+      <workItem from="1663268316819" duration="1905000" />
+      <workItem from="1663330077810" duration="5511000" />
+      <workItem from="1663347155619" duration="577000" />
+      <workItem from="1663445151138" duration="1286000" />
+      <workItem from="1663606634848" duration="1239000" />
+      <workItem from="1663763914951" duration="6650000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1657762565833</created>
@@ -358,7 +418,9 @@
     <option name="LAST_COMMIT_MESSAGE" value="Dont know what i've changed here, but take my commit" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/GuildsBot$GUILDSBOT.coverage" NAME="GUILDSBOT Coverage Results" MODIFIED="1659715314168" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/GuildsBot$bot.coverage" NAME="bot Coverage Results" MODIFIED="1659297325565" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/GuildsBot$GUILDSBOT.coverage" NAME="GUILDSBOT Coverage Results" MODIFIED="1662734972437" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/GuildsBot$models.coverage" NAME="models Coverage Results" MODIFIED="1662736510195" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/slavebot" />
+    <SUITE FILE_PATH="coverage/GuildsBot$db.coverage" NAME="db Coverage Results" MODIFIED="1663248656208" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/slavebot" />
+    <SUITE FILE_PATH="coverage/GuildsBot$bot.coverage" NAME="bot Coverage Results" MODIFIED="1663769919649" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

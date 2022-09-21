@@ -126,6 +126,8 @@ class Voting(DataMixin, commands.Cog):
 	)
 	async def assign_master(self, inter: Interaction, master: nextcord.Member, guild: str):
 
+		await inter.response.defer()
+
 		if await self.has_perms(
 				inter=inter
 		):

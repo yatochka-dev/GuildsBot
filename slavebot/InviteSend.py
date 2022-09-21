@@ -1,4 +1,3 @@
-from datetime import datetime, timedelta
 from typing import Tuple
 
 import nextcord
@@ -19,10 +18,14 @@ logger = config.get_logger
 
 class InviteAnswer:
 
-	def __init__(self, inter: nextcord.Interaction, guild: str, message: nextcord.Message):
+	def __init__(
+			self, inter: nextcord.Interaction, guild: str,
+			message: nextcord.Message
+	):
 		self.inter = inter
 		self.guild = guild.lower()
-		self.role = self.inter.guild.get_role(GuildsManager(self.guild.lower()).get_data().master_role_id)
+		self.role = self.inter.guild.get_role(
+			GuildsManager(self.guild.lower()).get_data().master_role_id)
 
 		self.message = message
 
@@ -38,7 +41,9 @@ class InviteAnswer:
 			embed=CustomEmbed(
 				embed=nextcord.Embed(
 					title="Отклонена ли...?",
-					description="Вы отклонили заявку, хотите ответить почему, чтобы пользователь знал, почему его не приняли?"
+					description="Вы отклонили заявку, хотите ответить почему, "
+					            "чтобы пользователь знал, почему его не "
+					            "приняли?"
 				)
 			).normal,
 
@@ -59,14 +64,21 @@ class InviteAnswer:
 			user_embed = CustomEmbed(
 				embed=nextcord.Embed(
 					title="Сожалеем | {}".format(self.guild),
-					description=f"Ваша заявка отправленная в гильдию {self.guild} не была одобрена...\n\nПричина: {message}\n\n\nP.S. **Вы можете отправить заявку в другую гильдию!**"
+					description=f"Ваша заявка отправленная в гильдию "
+					            f"{self.guild} не была "
+					            f"одобрена...\n\nПричина: "
+					            f"{message}\n\n\nP.S. **Вы можете отправить "
+					            f"заявку в другую гильдию!**"
 				)
 			).error
 		else:
 			user_embed = CustomEmbed(
 				embed=nextcord.Embed(
 					title="Сожалеем | {}".format(self.guild),
-					description=f"Ваша заявка отправленная в гильдию {self.guild} не была одобрена...\n\n\nP.S. **Вы можете отправить заявку в другую гильдию!**"
+					description=f"Ваша заявка отправленная в гильдию "
+					            f"{self.guild} не была одобрена...\n\n\nP.S. "
+					            f"**Вы можете отправить заявку в другую "
+					            f"гильдию!**"
 				)
 			).error
 
@@ -92,15 +104,18 @@ class InviteSend(DataMixin):
 		self.manager = manager
 		self.state = "INITIALIZATION"
 
-
 	@property
 	@logger.catch()
 	def create_embed(self) -> nextcord.Embed:
 		try:
 			self.state = "CREATING_EMBED"
 			_raw_embed = nextcord.Embed(
-				title="Новая заявка в {}.".format(str(self.guild).strip().lower().capitalize()),
-				description=f"Заявка истечёт {self.get_timestamp(days=3, discord=True)}, за 3 пропущенные заявки - снятие с поста ГМ-а.",
+				title="Новая заявка в {}.".format(str(self.guild).strip()
+				                                  .lower().capitalize()),
+				description=f"Заявка истечёт "
+				            f"{self.get_timestamp(days=3, discord=True)}"
+				            f", за 3 пропущенные заявки - снятие с поста "
+				            f"ГМ-а.",
 			)
 
 			embed = CustomEmbed(
@@ -108,7 +123,13 @@ class InviteSend(DataMixin):
 			).normal
 
 			fields = self.data.create_fields()
-			fields.insert(0, {"name": "Автор заявки:", "value": f"{self.interaction.user.mention}", "inline": False})
+			fields.insert(0,
+			              {
+				              "name": "Автор заявки:",
+				              "value": f"{self.interaction.user.mention}",
+				              "inline": False
+			              }
+			              )
 
 			for field in fields:
 				embed.add_field(**field)
@@ -128,7 +149,8 @@ class InviteSend(DataMixin):
 
 			invites_channel = server.get_channel(config.invites_channel)
 
-			master_role_id = GuildsManager(self.guild.lower()).get_data().master_role_id
+			master_role_id = GuildsManager(
+				self.guild.lower()).get_data().master_role_id
 
 			master_role = self.interaction.guild.get_role(master_role_id)
 
@@ -149,7 +171,8 @@ class InviteSend(DataMixin):
 					raise LookupError(f"Получения эмбеда {exc}") from exc
 
 				message = await invites_channel.send(
-					content=f"{self.interaction.user.mention}---{master_role.mention}",
+					content=f"{self.interaction.user.mention}---"
+					        f"{master_role.mention}",
 					embed=emb,
 					view=buttons,
 				)
@@ -159,7 +182,8 @@ class InviteSend(DataMixin):
 					embed=CustomEmbed(
 						embed=nextcord.Embed(
 							title="Отправлена",
-							description=f"Заявка в гильдию {self.guild} отправлена."
+							description=f"Заявка в гильдию {self.guild} "
+							            f"отправлена."
 						)
 					).great
 				)
@@ -174,15 +198,19 @@ class InviteSend(DataMixin):
 
 				if buttons.do is True:
 					cu = CheckUser(self.bot, server, self.interaction.user)
-					if cu.is_master():
-						await self.bad_callback(
+					if await cu.is_master():
+						return await self.bad_callback(
 							message,
-							"Невозможно принять пользователя в гильдию т.к. у него есть роль мастера одной из гильдий."
+							"Невозможно принять пользователя в гильдию т.к. "
+							"у него есть роль мастера одной из гильдий.",
+							delete_after=10,
 						)
-					elif cu.is_in_guild():
-						await self.bad_callback(
+					elif await cu.is_in_guild():
+						return await self.bad_callback(
 							message,
-							"Невозможно принять пользователя в гильдию т.к. он уже находится в гильдии."
+							"Невозможно принять пользователя в гильдию т.к. "
+							"он уже находится в гильдии.",
+							delete_after=10,
 						)
 					await self.__accepted(message)
 					self.manager.has_invite(False)
@@ -203,11 +231,23 @@ class InviteSend(DataMixin):
 					logger.error(f"Ошибка сообщения в канал {exc}")
 				else:
 					logger.error(f"Ошибка сообщения в канал {exc}")
-					raise LookupError(f"Ошибка сообщения в канал {exc}") from exc
+					raise LookupError(
+						f"Ошибка сообщения в канал {exc}") from exc
 
 
 		except Exception as exc:
 			logger.error(f"Ошибка отправки заявки {exc}")
+			await self.interaction.send(
+				ephemeral=True,
+				embed=CustomEmbed(
+					embed=nextcord.Embed(
+						title="Ошибка",
+						description=f"Ошибка отправки заявки в гильдию "
+						            f"{self.guild.capitalize()}.\n\n\n"
+						            f"Ошибка: ```{exc}```"
+					)
+				).error
+			)
 			raise LookupError(f"Ошибка отправки заявки {exc}") from exc
 
 	@logger.catch()
@@ -226,7 +266,9 @@ class InviteSend(DataMixin):
 		user_embed = CustomEmbed(
 			embed=nextcord.Embed(
 				title="Поздравляю | {}".format(self.guild.capitalize()),
-				description=f"Ваша заявка отправленная в гильдию {self.guild.capitalize()} была одобрена!"
+				description=f"Ваша заявка отправленна"
+				            f"я в гильдию {self.guild.capitalize()} была "
+				            f"одобрена!"
 			)
 		).great
 
@@ -264,13 +306,15 @@ class InviteSend(DataMixin):
 		await message.edit(embed=new_embed, view=WithoutView())
 
 		logger.success(
-			f"Отклонена заявка в {self.guild} от {self.interaction.user.mention}"
+			f"Отклонена заявка в {self.guild} от "
+			f"{self.interaction.user.mention}"
 		)
 
 	@logger.catch()
 	async def __out_of_time(self, message: nextcord.Message):
 		logger.critical(
-			f"Пропущена заявка в {self.guild.capitalize()} от {self.interaction.user.mention}"
+			f"Пропущена заявка в {self.guild.capitalize()} от "
+			f"{self.interaction.user.mention}"
 		)
 
 		new_embed = CustomEmbed(
@@ -283,13 +327,18 @@ class InviteSend(DataMixin):
 		user_embed = CustomEmbed(
 			embed=nextcord.Embed(
 				title="Время вышло | {}".format(self.guild),
-				description=f"Ваша заявка отправленная в гильдию {self.guild} была проигнорирована...\n\n\n\nP.S. **Мы сделаем всё, возможное, чтобы это больше не повторилось**"
+				description=f"Ваша заявка отправленная в гильдию {self.guild} "
+				            f"была проигнорирована...\n\n\n\nP.S. **Мы "
+				            f"сделаем "
+				            f"всё, возможное, чтобы это больше не "
+				            f"повторилось**"
 			)
 		).normal
 
 		new_content = f"{self.interaction.user.mention}---<@!686207718822117463>---<@!361198710551740428>"
 
-		await message.edit(content=new_content, embed=new_embed, view=WithoutView())
+		await message.edit(content=new_content, embed=new_embed,
+		                   view=WithoutView())
 		await self.interaction.user.send(
 			embed=user_embed
 		)
