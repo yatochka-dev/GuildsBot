@@ -263,12 +263,42 @@ class CheckUser:
 
 		return False
 
+	async def is_in_guild_get_role(self) -> nextcord.Role | bool:
+		all_roles = [self.server.get_role(GuildsManager(_.lower()).get_data().role_id) for _ in config.ALL_GUILDS]
+
+		for r in all_roles:
+			if has_role(role=r, user=self.user):
+				return r
+
+		return False
+
+	async def is_in_guild_get_guilds(self) -> bool | list[nextcord.Role]:
+		all_roles = [self.server.get_role(GuildsManager(_.lower()).get_data().role_id) for _ in config.ALL_GUILDS]
+		ret = []
+		for r in all_roles:
+			if has_role(role=r, user=self.user):
+				ret.append(r)
+
+		if len(ret) <= 0:
+			return False
+		else:
+			return ret
+
 	async def is_master(self):
 		all_roles = [self.server.get_role(GuildsManager(_.lower()).get_data().master_role_id) for _ in config.ALL_GUILDS]
 
 		for r in all_roles:
 			if has_role(role=r, user=self.user):
 				return True
+
+		return False
+
+	async def is_master_get_role(self) -> bool | nextcord.Role:
+		all_roles = [self.server.get_role(GuildsManager(_.lower()).get_data().master_role_id) for _ in config.ALL_GUILDS]
+
+		for r in all_roles:
+			if has_role(role=r, user=self.user):
+				return r
 
 		return False
 

@@ -92,7 +92,7 @@ class AdminPanel(DataMixin, commands.Cog):
 		name='rbm',
 	)
 	async def gmr(self, inter: Interaction, message_id: str, role: nextcord.Role):
-		await inter.response.defer()
+
 		end = False
 		try:
 			if await self.has_perms(inter=inter):
@@ -151,11 +151,14 @@ class AdminPanel(DataMixin, commands.Cog):
 		name='gercagmsg'
 	)
 	async def gercagmsg(self, inter: Interaction, name: str, color: str,
-	                    message_id: str):
+	                    message_id: str, image: nextcord.Attachment):
+		await inter.response.defer()
 		if await self.has_perms(inter=inter):
+
 			role = await inter.guild.create_role(
 				name=name,
 				color=int(color, 16),
+				icon=image,
 			)
 			await self.gmr(
 				interaction=inter,
